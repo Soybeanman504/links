@@ -1,13 +1,230 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
     <head>
-        <title>Soybeanman links</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soybeanman Links</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=WDXL+Lubrifont+JP+N&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            user-select: none;
+            
+            margin: 0;
+            font-family: 'WDXL Lubrifont JP N', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            transition: background 3s linear;
+            background: linear-gradient(135deg, #00c6ff, #ff7e5f);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5em;
+            color: #ffffff;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        p {
+            font-size: 1.8rem;
+            margin-bottom: 2em;
+            color: #f0f0f0;
+            animation: fadeIn 1.5s ease both;
+            animation-delay: 0.2s;
+        }
+
+        .link-container {
+            display: flex;
+            gap: 1.5em;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 1.5s ease both;
+            animation-delay: 0.2s;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            padding: 0.8em 1.8em;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.5s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        a:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 背景アニメーション */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* フェードイン効果 */
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes fadeInDown {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        @keyframes fadeInUp {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        
+        /* 泡のアニメーション */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.8;
+            animation: bubble 1.8s ease-in-out forwards;
+        }
+
+        @keyframes bubble {
+            from {
+                scale: 1;
+            }
+
+            15% {
+                scale: 1.4;
+            }
+
+            to {
+                scale: 0;
+                opacity: 0;
+            }
+        }
+    </style>
     </head>
+
     <body>
-        <h1>Soybeanman links</h1>
-        <p>Soybeanmanの各種SNSを大公開<p>
-        <a href="https://x.com/Soybeanman504">Twitter</a>
-        <a href="https://bsky.app/profile/soybeanman.bsky.social">Bluesky</a>
-        <a href="https://soybeanman504.tumblr.com/tagged/soypost">Tumblr</a>
+    <h1>Soybeanman Links</h1>
+    <p>Soybeanmanの各種SNSを大公開</p>
+
+    <div class="link-container">
+        <a href="https://x.com/Soybeanman504" target="_blank">Twitter</a>
+        <a href="https://bsky.app/profile/soybeanman.bsky.social" target="_blank">Bluesky</a>
+        <a href="https://soybeanman504.tumblr.com/tagged/soypost" target="_blank">Tumblr</a>
+    </div>
+
+    <footer>© 2025 Soybeanman</footer>
+
+    <script>
+        // 背景変化
+        const colors = [
+            ['#66d6ff', '#66c2ff'],
+            ['#ff9a9e', '#fad0c4'],
+            ['#a18cd1', '#fbc2eb'],
+            ['#84fab0', '#8fd3f4'],
+            ['#fccb90', '#d57eeb']
+        ];
+
+        let step = 0;
+        let colorIndex = 0;
+
+        function updateBackground() {
+            const [c1, c2] = colors[colorIndex];
+            const [nextC1, nextC2] = colors[(colorIndex + 1) % colors.length];
+            const ratio = step;//(-Math.cos(Math.PI * step) + 1) / 2;
+
+            const mix = (a, b) => {
+                const ah = parseInt(a.replace('#', ''), 16);
+                const bh = parseInt(b.replace('#', ''), 16);
+                const r = Math.round(((ah >> 16) * (1 - ratio)) + ((bh >> 16) * ratio));
+                const g = Math.round((((ah >> 8) & 0xff) * (1 - ratio)) + (((bh >> 8) & 0xff) * ratio));
+                const bl = Math.round(((ah & 0xff) * (1 - ratio)) + ((bh & 0xff) * ratio));
+                return `rgb(${r},${g},${bl})`;
+            };
+
+            document.body.style.background = `linear-gradient(135deg, ${mix(c1, nextC1)}, ${mix(c2, nextC2)})`;
+            step += 0.004;
+            if (step >= 1) {
+                step = 0;
+                colorIndex = (colorIndex + 1) % colors.length;
+            }
+
+            requestAnimationFrame(updateBackground);
+        }
+
+        updateBackground();
+
+        // 泡パーティクル
+        const generateBubble = (e) => {
+            const count = Math.floor((Math.random() * 0.5 + 0.5) * 10);
+
+            for (let i = 0; i < count; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                document.body.appendChild(bubble);
+
+                const size = (Math.random() * 3 + 1) * 12;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${e.clientX - size / 2}px`;
+                bubble.style.top = `${e.clientY - size / 2}px`;
+
+                bubble.style.background = `rgba(255, 255, 255, 0.15)`;
+
+                {
+                    const delay = Math.random() * 0.3;
+                    bubble.style.animationDelay = `${delay}s`;
+                    const rad = Math.random() * 2 * Math.PI;
+                    const scale = Math.random() * 0.5 + 0.5;
+                    let vx = Math.cos(rad) * 2 * scale,  vy = (Math.sin(rad) * 2 + 0.5) * scale;
+                    let x = 0, y = 0;
+
+                    const updateBubble = () => {
+                        x += vx;
+                        vy -= 0.1;
+                        y += vy;
+
+                        bubble.style.transform = `translate(${x}px, ${y}px)`;
+
+                        return requestAnimationFrame(updateBubble);
+                    }
+                    let requestID = updateBubble();
+
+                    setTimeout(() => {
+                        bubble.remove();
+                        cancelAnimationFrame(requestID);
+                    }, 1800 + 1000 * delay);
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', generateBubble);
+        document.addEventListener('touch', generateBubble);
+    </script>
     </body>
 </html>
